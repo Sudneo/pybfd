@@ -6,7 +6,6 @@
 #
 
 import sys
-import os
 import re
 import subprocess
 from io import StringIO
@@ -18,7 +17,7 @@ __all__ = [ "generate_supported_disassembler_header",
             "gen_supported_archs"]
 
 known_archs = [
-  #BFD_ARCH,            BFD_LITTLE_ENDIAN,          BFD_BIG_ENDIAN,             DESCRIPTION
+  # BFD_ARCH,           BFD_LITTLE_ENDIAN,          BFD_BIG_ENDIAN,             DESCRIPTION
   ("bfd_arch_m68k",     "print_insn_m68k",          "print_insn_m68k",          "Motorola 68xxx"),
   ("bfd_arch_vax",      "print_insn_vax",           "print_insn_vax",           "DEC Vax"),
   ("bfd_arch_i960",     "print_insn_i960",          "print_insn_i960",          "Intel 960"),
@@ -213,6 +212,7 @@ int main(int argc, char* argv[])
 
 """
 
+
 def generate_supported_disassembler_header(supported_archs):
     """Extract export symbols using binutils's nm utility from Binutils and
     generate a current header for PyBFD.
@@ -221,9 +221,10 @@ def generate_supported_disassembler_header(supported_archs):
     arch_entries = []
 
     for arch, little, big, comment in supported_archs:
-        arch_entries.append( header_arch_entry % (arch, little, big) )
+        arch_entries.append(header_arch_entry % (arch, little, big))
 
-    return supported_archs_header % ( ",\n".join(arch_entries) )
+    return supported_archs_header % (",\n".join(arch_entries))
+
 
 def generate_supported_architectures_source(supported_archs, supported_machines):
     """Extract export symbols using binutils's nm utility from Binutils and
@@ -234,45 +235,45 @@ def generate_supported_architectures_source(supported_archs, supported_machines)
     mach_entries = []
 
     for arch, little, big, comment in supported_archs:
-        arch_entries.append( pybfd_arch_entry % (arch[4 : ].upper(), arch) )
+        arch_entries.append(pybfd_arch_entry % (arch[4:].upper(), arch))
 
     for mach, value in supported_machines:
-        mach_entries.append( pybfd_mach_entry % (mach[4 : ].upper(), value) )
+        mach_entries.append(pybfd_mach_entry % (mach[4:].upper(), value))
 
     return gen_bfd_archs_code % (
         "\n".join(arch_entries),
         "\n".join(mach_entries))
 
+
 def get_supported_architectures(path_to_nm, path_to_libopcodes, supported_machines, shared):
     # Build the command line.
-    cmdline = [path_to_nm,]
+    cmdline = [path_to_nm, ]
     if sys.platform != "darwin" and shared:
-        cmdline.append("--dynamic")  # Show dynamic symbols (for .so shared
-                                     #  object).
+        cmdline.append("--dynamic")  # Show dynamic symbols (for .so shared  object).
     cmdline.append(path_to_libopcodes)
 
     # Run the nm utility.
-    p = subprocess.Popen(cmdline, stdout = subprocess.PIPE)
+    p = subprocess.Popen(cmdline, stdout=subprocess.PIPE)
     stdout, stderr = p.communicate()
     p.wait()
 
     sym_expr = re.compile("\sT\s(?:_?)(print_insn_.*)")
     
-    bigs = dict( [(big,arch) for arch, big, little, comment in known_archs] )
-    littles = dict( [(little,arch) for arch, big, little, comment in known_archs] )
+    bigs = dict([(big,arch) for arch, big, little, comment in known_archs])
+    littles = dict([(little,arch) for arch, big, little, comment in known_archs])
 
     # Buffer the output.
     syms_found = set()
     output = StringIO(stdout)
 
     for line in output.getvalue().split("\n"):
-        m = sym_expr.search( line )
+        m = sym_expr.search(line)
         if m:
-            syms_found.add( m.group(1) )
+            syms_found.add(m.group(1))
 
     supported_archs = []
 
-    supported_machines = set( [m[0] for m in supported_machines] )
+    supported_machines = set([m[0] for m in supported_machines])
 
     for arch, little, big, comment in known_archs:
 
@@ -282,8 +283,7 @@ def get_supported_architectures(path_to_nm, path_to_libopcodes, supported_machin
             continue
 
         if little in syms_found and big in syms_found:
-            supported_archs.append( (arch, little, big, comment) )
-
+            supported_archs.append((arch, little, big, comment))
 
     return supported_archs
 
@@ -297,12 +297,11 @@ def get_supported_machines(path_to_bfd_header):
 
     machine_expr = re.compile("#define\s(bfd_mach_[a-zA-Z-0-9_]*)\s+(.*)")
     for line in bfd_header.splitlines():
-        m = machine_expr.search( line )
+        m = machine_expr.search(line)
         if m:
             supported_machines.append(m.groups())
 
     return supported_machines
-
 
 
 bfd_supported_archs = """
@@ -317,16 +316,12 @@ SUPPORTED_ARCHS = [
 bfd_supported_archs_name_entry = "    %s: '%s',"
 bfd_supported_archs_entry = "    %s,"
 
-def gen_supported_archs( supported_archs ):
+
+def gen_supported_archs(supported_archs):
 
     archs_names = []
     supported_arch_entries = []
-    for arch, _, _ , comment in supported_archs:
-        archs_names.append( bfd_supported_archs_name_entry  % (arch[4:].upper(), comment) )
-        supported_arch_entries.append( bfd_supported_archs_entry % arch[4:].upper() )
-    return bfd_supported_archs % ( "\n".join( archs_names ), "\n".join( supported_arch_entries ) )
-
-        
-        
-
-
+    for arch, _, _, comment in supported_archs:
+        archs_names.append(bfd_supported_archs_name_entry % (arch[4:].upper(), comment))
+        supported_arch_entries.append(bfd_supported_archs_entry % arch[4:].upper())
+    return bfd_supported_archs % ("\n".join(archs_names), "\n".join(supported_arch_entries))

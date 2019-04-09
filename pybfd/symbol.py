@@ -6,13 +6,11 @@
 
 from collections import namedtuple
 
-from bfd_base import BfdException
-
-__author__      = "Groundworks Technologies OSS Team"
-__contact__     = "oss@groundworkstech.com"
-__company__     = "Groundworks Technologies"
-__year__        = "2013"
-__versaion__    = "0.1"
+__author__ = "Groundworks Technologies OSS Team"
+__contact__ = "oss@groundworkstech.com"
+__company__ = "Groundworks Technologies"
+__year__ = "2013"
+__versaion__ = "0.1"
 
 __all__ = ["Symbol", "SymbolFlags", "SYMBOL_FLAGS_LIST", "SYMBOL_FLAGS_NAMES_SHORT"]
 
@@ -31,7 +29,7 @@ class SymbolFlags:
 
     #  The symbol has global scope and is exported. The value is
     #  the offset into the section of the data.
-    EXPORT = GLOBAL # No real difference.
+    EXPORT = GLOBAL  # No real difference.
 
     #  A normal C symbol would be one of:
     #  <<LOCAL>>, <<COMMON>>,  <<UNDEFINED>> or
@@ -111,7 +109,6 @@ class SymbolFlags:
     #  This symbol was created by bfd_get_synthetic_symtab.
     SYNTHETIC = 1 << 21
 
-
     #  This symbol is an indirect code object.  Unrelated to INDIRECT.
     #  The dynamic linker will compute the value of this symbol by
     #  calling the function that it points to.  FUNCTION must
@@ -122,6 +119,7 @@ class SymbolFlags:
     #  will make sure that in the entire process there is just one symbol
     #  with this name and type in use.  OBJECT must also be set.
     GNU_UNIQUE = 1 << 23
+
 
 SYMBOL_FLAGS_LIST = (
     SymbolFlags.NO_FLAGS,
@@ -151,30 +149,30 @@ SYMBOL_FLAGS_LIST = (
 )
 
 SYMBOL_FLAGS_NAMES_SHORT = {
-    SymbolFlags.NO_FLAGS : "NO_FLAGS",
-    SymbolFlags.LOCAL : "LOCAL",
-    SymbolFlags.GLOBAL : "GLOBAL",
-    SymbolFlags.EXPORT : "EXPORT",
-    SymbolFlags.DEBUGGING : "DEBUGGING",
-    SymbolFlags.FUNCTION : "FUNCTION",
-    SymbolFlags.KEEP_G : "KEEP_G",
-    SymbolFlags.WEAK : "WEAK",
-    SymbolFlags.SECTION_SYM : "SECTION_SYM",
-    SymbolFlags.OLD_COMMON : "OLD_COMMON",
-    SymbolFlags.NOT_AT_END : "NOT_AT_END",
-    SymbolFlags.CONSTRUCTOR : "CONSTRUCTOR",
-    SymbolFlags.WARNING : "WARNING",
-    SymbolFlags.INDIRECT : "INDIRECT",
-    SymbolFlags.FILE : "FILE",
-    SymbolFlags.DYNAMIC : "DYNAMIC",
-    SymbolFlags.OBJECT : "OBJECT",
-    SymbolFlags.DEBUGGING_RELOC : "DEBUGGING_RELOC",
-    SymbolFlags.THREAD_LOCAL : "THREAD_LOCAL",
-    SymbolFlags.RELC : "RELC",
-    SymbolFlags.SRELC : "SRELC",
-    SymbolFlags.SYNTHETIC : "SYNTHETIC",
-    SymbolFlags.GNU_INDIRECT_FUNCTION : "GNU_INDIRECT_FUNCTION",
-    SymbolFlags.GNU_UNIQUE : "GNU_UNIQUE",
+    SymbolFlags.NO_FLAGS: "NO_FLAGS",
+    SymbolFlags.LOCAL: "LOCAL",
+    SymbolFlags.GLOBAL: "GLOBAL",
+    SymbolFlags.EXPORT: "EXPORT",
+    SymbolFlags.DEBUGGING: "DEBUGGING",
+    SymbolFlags.FUNCTION: "FUNCTION",
+    SymbolFlags.KEEP_G: "KEEP_G",
+    SymbolFlags.WEAK: "WEAK",
+    SymbolFlags.SECTION_SYM: "SECTION_SYM",
+    SymbolFlags.OLD_COMMON: "OLD_COMMON",
+    SymbolFlags.NOT_AT_END: "NOT_AT_END",
+    SymbolFlags.CONSTRUCTOR: "CONSTRUCTOR",
+    SymbolFlags.WARNING: "WARNING",
+    SymbolFlags.INDIRECT: "INDIRECT",
+    SymbolFlags.FILE: "FILE",
+    SymbolFlags.DYNAMIC: "DYNAMIC",
+    SymbolFlags.OBJECT: "OBJECT",
+    SymbolFlags.DEBUGGING_RELOC: "DEBUGGING_RELOC",
+    SymbolFlags.THREAD_LOCAL: "THREAD_LOCAL",
+    SymbolFlags.RELC: "RELC",
+    SymbolFlags.SRELC: "SRELC",
+    SymbolFlags.SYNTHETIC: "SYNTHETIC",
+    SymbolFlags.GNU_INDIRECT_FUNCTION: "GNU_INDIRECT_FUNCTION",
+    SymbolFlags.GNU_UNIQUE: "GNU_UNIQUE",
 }
 
 # A pointer to the BFD which owns the symbol. This information is necessary so
