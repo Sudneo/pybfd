@@ -34,10 +34,10 @@ else:
     import _bfd
 del version_info
 
-from bfd_archs import *
-from section import *
+from pybfd.bfd_archs import *
+from pybfd.section import *
 from symbol import *
-from bfd_base import *
+from pybfd.bfd_base import *
 
 __author__ = "Groundworks Technologies OSS Team"
 __contact__ = "oss@groundworkstech.com"

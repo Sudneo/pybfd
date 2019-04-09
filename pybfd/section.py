@@ -4,14 +4,14 @@
 # This code is part Python pybfd module (libbfd extension module)
 #
 
-from bfd_base import BfdException, enum
-import _bfd
+from pybfd.bfd_base import BfdException, enum
+import pybfd._bfd
 
 __author__      = "Groundworks Technologies OSS Team"
 __contact__     = "oss@groundworkstech.com"
 __company__     = "Groundworks Technologies"
 __year__        = "2013"
-__versaion__    = "0.1"
+__version__    = "0.1"
 
 class SectionFlags:
     NO_FLAGS = 0x000
