@@ -9,12 +9,13 @@ import sys
 import os
 import re
 import subprocess
-from StringIO import StringIO
+from io import StringIO
 
 __all__ = [ "generate_supported_disassembler_header",
             "generate_supported_architectures_source",
             "get_supported_architectures",
-            "get_supported_machines"]
+            "get_supported_machines",
+            "gen_supported_archs"]
 
 known_archs = [
   #BFD_ARCH,            BFD_LITTLE_ENDIAN,          BFD_BIG_ENDIAN,             DESCRIPTION
